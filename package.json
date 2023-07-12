@@ -19,7 +19,8 @@
     "url": "https://github.com/Mullayam/create-api-app/issues"
   },
   "_moduleAliases": {
-    "@": "core"
+    "@": "core",
+    "@/config": "core/config"
   },
   "_moduleDirectories": [
     "core"
@@ -27,6 +28,7 @@
   "dependencies": {
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
@@ -36,9 +38,14 @@
     "jsonwebtoken": "^9.0.0",
     "keygrip": "^1.1.0",
     "module-alias": "^2.2.3",
-    "mongodb": "5.7"
+    "mongodb": "5.7",
+    "multer": "1.4.5-lts.1",
+    "multiparty": "^4.2.3",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@types/module-alias": "^2.0.1"
+    "@types/module-alias": "^2.0.1",
+    "@types/node": "^20.4.1",
+    "typescript": "^5.1.6"
   }
 }

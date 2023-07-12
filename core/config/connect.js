@@ -1,21 +1,18 @@
-import  {MongoClient} from "mongodb";
+import { MongoClient } from "mongodb";
+import createID from "../utils/generateRandomId.js";
 
- 
-const client = new MongoClient(process.env.DATABASE_URL);
+export const client = new MongoClient(process.env.DATABASE_URL,{
+  pkFactory: { createPk: () =>  createID() }
+});
+const connect = client.db("internship-task");
 
-async function run() {
+async function run(collectionName, query) {
   try {
-    const database = client.db('sample_mflix');
-    const movies = database.collection('movies');
-
-    // Query for a movie that has the title 'Back to the Future'
-    const query = { title: 'Back to the Future' };
-    const movie = await movies.findOne(query);
-
-    console.log(movie);
+    const test = connect.collection(collectionName);
+    return await test.findOne(query);
   } finally {
-    // Ensures that the client will close when you finish/error
     await client.close();
   }
 }
-run().catch(console.dir);
+
+export default connect;

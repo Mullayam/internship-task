@@ -1,9 +1,14 @@
 import express from "express";
+import routes from "./routes/index.js";
+import bodyParser from "body-parser";
+import { getFields } from "./middlewares/ParseMutliformData.js";
 const app = express();
 
-console.log("----- Starting -----".green);
-// listening server
-app.listen(AppConfig.APP.SERVER_PORT || 8000, () =>
-  console.log("Server listening on 8000".yellow)
-);
-export default app
+app.use(express.raw());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(getFields.array(), routes);
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(500).json({ error: "Internal Server Error" });
+});
+export default app;
