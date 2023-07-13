@@ -7,6 +7,7 @@ const app = express();
 app.use(express.raw());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(getFields.array(), routes);
+
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ error: "Internal Server Error" });

@@ -9,7 +9,7 @@ router.post("/forget-password", Authentication.ForgetPassword);
 router.post("/logout",Authentication.Logout);
 router.get("/current-user",isAuthenticated,Authentication.CurrentUser);
 // Endpoint to view all vehicles owned by user
-router.get('/users/:id/vehicles', isAuthenticated, (req, res) => {
+router.get('/:id/vehicles', isAuthenticated, (req, res) => {
     const userId = req.params.id;  
     // Fetch all vehicles owned by the user from the database
   
@@ -17,5 +17,5 @@ router.get('/users/:id/vehicles', isAuthenticated, (req, res) => {
     const vehicles = [{ make: 'Toyota', model: 'Corolla' }, { make: 'Honda', model: 'Civic' }];
     res.json({ vehicles });
   });
-  
+ 
 export default router;

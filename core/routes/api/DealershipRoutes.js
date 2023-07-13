@@ -1,20 +1,11 @@
 import { Router } from "express";
+import DealershipController from "../../controllers/dealer/DealershipController.js";
 
 const router = Router()
-
  
   // Endpoint to view all cars sold by dealership
-  router.get('/:id/sold-cars', (req, res) => {
-    const dealershipId = req.params.id;
-  
-    // Fetch all cars sold by the specified dealership from the database
-  
-    // Example response
-    const cars = [{ make: 'Toyota', model: 'Corolla' }, { make: 'Honda', model: 'Civic' }];
-    res.json({ cars });
-  });
-  
-  // Endpoint to add cars to dealership
+  router.get('/:vehicle_id/sold-cars', DealershipController.GetSoldCars); 
+
   router.post('/:id/cars', (req, res) => {
     const dealershipId = req.params.id;
     const cars = req.files;
@@ -30,7 +21,7 @@ const router = Router()
   
     // Fetch all deals provided by the specified dealership from the database
   
-    // Example response
+     
     const deals = [{ price: 10000, car: 'Toyota Corolla' }, { price: 12000, car: 'Honda Civic' }];
     res.json({ deals });
   });
@@ -51,7 +42,7 @@ const router = Router()
   
     // Fetch all vehicles sold by the specified dealership from the database
   
-    // Example response
+   
     const vehicles = [{ make: 'Toyota', model: 'Corolla' }, { make: 'Honda', model: 'Civic' }];
     res.json({ vehicles });
   });
@@ -65,4 +56,5 @@ const router = Router()
   
     res.sendStatus(201); // Created
   });
+  
 export default router

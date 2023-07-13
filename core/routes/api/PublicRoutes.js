@@ -1,15 +1,12 @@
 import { Router } from "express";
 import { isAuthenticated } from "../../middlewares/isAuthenticated.js";
+import { PublicController } from "../../controllers/index.js";
 const router = Router();
 
-router.get("/cars",(req, res) => {
-    // Fetch all cars from the database     
-    const cars = [{ make: 'Toyota', model: 'Corolla' }, { make: 'Honda', model: 'Civic' }];
-    res.json({ cars });
-  });
+router.get("/cars",PublicController.GetCars);
 
-  // Endpoint to view all cars in a dealership
-  router.get('/dealerships/:id/cars', (req, res) => {
+// Endpoint to view all cars in a dealership
+router.get('/dealerships/:id/cars', (req, res) => {
     const dealershipId = req.params.id;
   
     // Fetch all cars from the specified dealership in the database
@@ -60,9 +57,8 @@ router.get("/cars",(req, res) => {
   router.post('/deals/:id/buy', isAuthenticated, (req, res) => {
     const dealId = req.params.id;
   
-    // Process the purchase based on the deal ID
-  
+    // Process the purchase based on the deal ID  
     res.sendStatus(200); // OK
   });
-  
+   
 export default router;

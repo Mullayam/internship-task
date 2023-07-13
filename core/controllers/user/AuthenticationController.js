@@ -8,10 +8,8 @@ import connect from "../../config/connect.js";
 import BlacklistedTokens from "../../utils/BlacklistedToken.js";
 class AuthenticationController {
   async Login(req, res) {
-   
     const { email, password } = req.body;
-    const checkUser = await isUserExist(email);
-
+    const checkUser = await isUserExist(email);     
     if (!checkUser) {
       return res.status(401).send({ message: "Invalid Credentials" });
     }
@@ -19,11 +17,20 @@ class AuthenticationController {
     if (!isMatch) {
       return res.status(401).send({ message: "Invalid Credentials" });
     }
-    const token = jwt.sign({ id: user.rows[0].id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const token = jwt.sign(
+      {         
+        user_id: checkUser._id,
+        user_email: checkUser.user_email,
+        first_name: checkUser.user_info.first_name,
+        role: checkUser.role,
+      },
+      process.env.JWT_SECRET_KEY,
+      {
+        expiresIn: "1h",
+      }
+    );
     res.cookie("token", token, { httpOnly: true });
-    res.status(200).send({ token: "tes" });
+    res.status(200).send({ token });
   }
   async Register(req, res) {
     try {
@@ -73,7 +80,7 @@ class AuthenticationController {
       } catch (err) {
         return false;
       }
-    });  
+    });
     BlacklistedTokens.push(...userTokens);
     res.send("Hello World").end();
   }
@@ -82,9 +89,9 @@ class AuthenticationController {
       const UserModel = connect.collection("user");
       const User = await UserModel.findOne({ user_email: req.body.user_email });
       if (User.user_email !== req.body.user_email) {
-        res.clearCookie("token")
-              return res.status(401).send({ message: "Invalid Credentials" });
-            }
+        res.clearCookie("token");
+        return res.status(401).send({ message: "Invalid Credentials" });
+      }
       return res.status(200).send({ User: req.body });
     } catch (error) {
       console.log(error);
@@ -92,7 +99,7 @@ class AuthenticationController {
     }
   }
   async Logout(req, res) {
-    BlacklistedTokens.push(req.headers.authorization.split(' ')[1]);
+    BlacklistedTokens.push(req.headers.authorization.split(" ")[1]);
     res.clearCookie("token");
     return res.status(200).send({ message: "Logout Successful" });
   }
